@@ -29,16 +29,14 @@ public class Solver {
         this.board = board;
     }
 
+    /*
+     * Returns true if the board's current configuration is possible.
+     */
     private boolean isPossibleConfig(int blockNumber) {
-        if (this.isIllegalBlock(blockNumber)) {
-            return false;
-        } else if (this.isIllegalRow(blockNumber)) {
-            return false;
-        } else if (this.isIllegalColumn(blockNumber)) {
-            return false;
-        } else {
-            return true;
-        }
+        // if any illegal case is met, return false, otherwise, return true
+        return !(this.isIllegalBlock(blockNumber)
+              || this.isIllegalRow(blockNumber)
+              || this.isIllegalColumn(blockNumber));
     }
 
     /*
