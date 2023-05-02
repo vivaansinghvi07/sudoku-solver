@@ -2,6 +2,7 @@ public class Solver {
 
     private int[][] board;      // represents gameboard
     private boolean[] found;    // gets reset a lot, stores found values
+    private boolean solved;
 
     /*
      * 0  1  2  3  4  5  6  7  8
@@ -27,6 +28,62 @@ public class Solver {
     
     public Solver(int[][] board) {
         this.board = board;
+        // turns given numbers to negatives
+        for (int y = 0; y < 9; y++)  {
+            for (int x = 0; x < 9; x++) {
+                this.board[y][x] = -this.board[y][x];
+            }
+        }
+        this.solved = false;
+    }
+
+
+    /*
+     * Uses backtracking to recursively solve the sudoku board.
+     */
+    public Status solve(int blockNumber) {
+        if (blockNumber == 82) {
+            this.solved = true;
+        } if (this.solved) {
+            return Status.WIN;
+        }
+        this.display();     // displays as it gets solved
+        if (this.board[getRowNumber(blockNumber)][getColNumber(blockNumber)] < 0) {
+            return solve(blockNumber + 1);
+        }
+        for (int guess = 1; guess <= 9; guess++) {
+            this.board[getRowNumber(blockNumber)][getColNumber(blockNumber)] = guess;
+            if (isPossibleConfig(blockNumber)) {
+                solve(blockNumber + 1);
+            } else {
+                continue;
+            }
+        }
+        if (this.solved) {
+            return Status.WIN;
+        }
+        this.board[getRowNumber(blockNumber)][getColNumber(blockNumber)] = 0;
+        return Status.LOSS;
+    }
+
+    /*
+     * Displays the Sudoku board.
+     * Involves clearing the console window.
+     */
+    public void display() {
+        String output = new String();
+        for (int[] row : this.board) {
+            for (int num : row) {
+                output += Math.abs(num) + " ";
+            }
+            output += "\n";
+        }
+        
+        // clears the console
+        System.out.println("\033[H\033[2J");
+        System.out.flush();
+        System.out.println(output);
+
     }
 
     /*
@@ -109,10 +166,10 @@ public class Solver {
     private boolean illegalFound(int value) {
         if (value == 0) {                       // blank square
             return false;
-        } else if (found[value-1] == true) {    // taken square - illegal
+        } else if (found[Math.abs(value)-1] == true) {    // taken square - illegal
             return true;
         } else {                                // otherwise mark as found and go next
-            this.found[value-1] = true;
+            this.found[Math.abs(value)-1] = true;
             return false;
         }
     }
