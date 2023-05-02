@@ -47,30 +47,24 @@ public class Solver {
     private boolean isIllegalBlock(int blockNumber) {
 
         // determine which blocks to go for based on progress in the algorithm
-        int yAdderLimit = ((blockNumber / 27) + 1) * 3;  // either 3, 6, 9
+        int xBlock = getColNumber(blockNumber) / 3;      // either 0, 1, 2
+        int yBlock = getRowNumber(blockNumber) / 3;      // either 0, 1, 2
 
-        // go through each row
-        for (int yAdder = 0; yAdder < yAdderLimit; yAdder += 3) {   // either 0, 3, 6
+        // check each block
+        boolean[] found = new boolean[9];
+        for (int x = 0; x < 3; x++) {        // either 0, 1, 2
+            for (int y = 0; y < 3; y++) {    // either 0, 1, 2
 
-            // go through each column
-            for (int xAdder = 0; xAdder < 9; xAdder ++) {           // either 0, 3, 6
-
-                // check each block
-                boolean[] found = new boolean[9];
-                for (int blockX = 0; blockX < 3; blockX++) {        // either 0, 1, 2
-                    for (int blockY = 0; blockY < 3; blockY++) {    // either 0, 1, 2
-
-                        int tempValue = this.board[yAdder + blockY][xAdder + blockX];
-                        if (tempValue == 0) {               // blank square
-                            continue;
-                        } else if (found[tempValue-1]) {    // take square - illegal
-                            return true;
-                        } else {                            // otherwise mark as found and go next
-                            found[tempValue-1] = true;
-                        }
-
-                    }
+                int tempValue = this.board[xBlock * 3 + y][yBlock * 3 + x];
+                
+                if (tempValue == 0) {               // blank square
+                    continue;
+                } else if (found[tempValue-1]) {    // take square - illegal
+                    return true;
+                } else {                            // otherwise mark as found and go next
+                    found[tempValue-1] = true;
                 }
+
             }
         }
 
