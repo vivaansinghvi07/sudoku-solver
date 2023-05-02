@@ -42,27 +42,31 @@ public class Solver {
      * Uses backtracking to recursively solve the sudoku board.
      */
     public Status solve(int blockNumber) {
-        if (blockNumber == 82) {
+        if (blockNumber == 82) {    // set solved if its a high number
             this.solved = true;
-        } if (this.solved) {
+        }
+        // exit if solved
+        if (this.solved) {
             return Status.WIN;
         }
         this.display();     // displays as it gets solved
         if (this.board[getRowNumber(blockNumber)][getColNumber(blockNumber)] < 0) {
-            return solve(blockNumber + 1);
+            return solve(blockNumber + 1);  // return statement exits before it can be guessed
         }
         for (int guess = 1; guess <= 9; guess++) {
             this.board[getRowNumber(blockNumber)][getColNumber(blockNumber)] = guess;
+            // if its a possible config, move to the next number
             if (isPossibleConfig(blockNumber)) {
                 solve(blockNumber + 1);
             } else {
                 continue;
             }
         }
+        // exit if solved
         if (this.solved) {
             return Status.WIN;
         }
-        this.board[getRowNumber(blockNumber)][getColNumber(blockNumber)] = 0;
+        this.board[getRowNumber(blockNumber)][getColNumber(blockNumber)] = 0;   // resets to blank if none worked
         return Status.LOSS;
     }
 
