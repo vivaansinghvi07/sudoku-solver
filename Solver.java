@@ -48,15 +48,14 @@ public class Solver {
     private boolean isIllegalBlock(int blockNumber) {
 
         // determine which blocks to go for based on progress in the algorithm
-        int xBlock = getColNumber(blockNumber) / 3;      // either 0, 1, 2
-        int yBlock = getRowNumber(blockNumber) / 3;      // either 0, 1, 2
+        int xBlock = (getColNumber(blockNumber) / 3) * 3;      // either 0, 3, 6
+        int yBlock = (getRowNumber(blockNumber) / 3) * 3;      // either 0, 3, 6
 
         // check each block
         this.found = new boolean[9];
         for (int x = 0; x < 3; x++) {        // either 0, 1, 2
             for (int y = 0; y < 3; y++) {    // either 0, 1, 2
-                int value = this.board[xBlock * 3 + y][yBlock * 3 + x];
-                if(this.illegalFound(value)) {
+                if(this.illegalFound(this.board[xBlock + y][yBlock + x])) {
                     return true;
                 }
             }
