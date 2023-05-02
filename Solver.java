@@ -1,6 +1,7 @@
 public class Solver {
 
     private int[][] board;      // represents gameboard
+    private boolean[] found;    // gets reset a lot, stores found values
 
     /*
      * 0  1  2  3  4  5  6  7  8
@@ -51,20 +52,13 @@ public class Solver {
         int yBlock = getRowNumber(blockNumber) / 3;      // either 0, 1, 2
 
         // check each block
-        boolean[] found = new boolean[9];
+        this.found = new boolean[9];
         for (int x = 0; x < 3; x++) {        // either 0, 1, 2
             for (int y = 0; y < 3; y++) {    // either 0, 1, 2
-
-                int tempValue = this.board[xBlock * 3 + y][yBlock * 3 + x];
-                
-                if (tempValue == 0) {               // blank square
-                    continue;
-                } else if (found[tempValue-1]) {    // take square - illegal
+                int value = this.board[xBlock * 3 + y][yBlock * 3 + x];
+                if(this.illegalFound(value)) {
                     return true;
-                } else {                            // otherwise mark as found and go next
-                    found[tempValue-1] = true;
                 }
-
             }
         }
 
@@ -80,20 +74,13 @@ public class Solver {
 
         int colNumber = this.getColNumber(blockNumber);
         
-        boolean[] found = new boolean[9];
-
-        // check everything in that column
+        // check everything in the col
+        this.found = new boolean[9];
         for (int y = 0; y < 9; y++) {
-            int tempValue = this.board[y][colNumber];
-            if (tempValue == 0) {               // blank square
-                continue;
-            } else if (found[tempValue-1]) {    // take square - illegal
+            if(this.illegalFound(this.board[y][colNumber])) {
                 return true;
-            } else {                            // otherwise mark as found and go next
-                found[tempValue-1] = true;
             }
         }
-
 
         // return false if nothing wrong
         return false;
@@ -107,21 +94,30 @@ public class Solver {
 
         int rowNumber = getRowNumber(blockNumber);
 
-        // go through every row
-        boolean[] found = new boolean[9];
+        // check everything in the row
+        this.found = new boolean[9];
         for (int x = 0; x < 9; x++) {
-            int tempValue = this.board[rowNumber][x];
-            if (tempValue == 0) {               // blank square
-                continue;
-            } else if (found[tempValue-1]) {    // take square - illegal
+            if(this.illegalFound(this.board[rowNumber][x])) {
                 return true;
-            } else {                            // otherwise mark as found and go next
-                found[tempValue-1] = true;
             }
         }
 
         // return false if all good
         return false;
+    }
+
+    /*
+     * Controls checking illegal values
+     */
+    private boolean illegalFound(int value) {
+        if (value == 0) {                       // blank square
+            return false;
+        } else if (found[value-1] == true) {    // taken square - illegal
+            return true;
+        } else {                                // otherwise mark as found and go next
+            this.found[value-1] = true;
+            return false;
+        }
     }
 
     private int getColNumber(int blockNumber) {
