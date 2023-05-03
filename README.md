@@ -19,6 +19,7 @@ Simply enter the board as 9 lines of text, with each line containing 9 numbers s
 And here is the algorithm's solved puzzle:
 
 ```
+3 2 6 1 5 4 7 8 9 
 4 7 8 2 9 6 5 3 1 
 5 9 1 3 7 8 2 4 6 
 2 3 4 6 1 5 8 9 7 
