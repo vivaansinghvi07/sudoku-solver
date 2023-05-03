@@ -71,7 +71,7 @@ public class Solver {
         // clears the console
         System.out.println("\033[H\033[2J");
         System.out.flush();
-        System.out.println(output);
+        System.out.print(output);
 
     }
 

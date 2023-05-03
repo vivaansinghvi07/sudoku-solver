@@ -16,9 +16,9 @@ public class Main {
         }
         solver.display();
         if (status == Status.SUCCESS) {
-            System.out.println("Here is the solved puzzle!\n");
+            System.out.println("Here is the solved puzzle!");
         } else {
-            System.out.println("The puzzle could not be solved.\n");
+            System.out.println("The puzzle could not be solved.");
         }
     }
 
