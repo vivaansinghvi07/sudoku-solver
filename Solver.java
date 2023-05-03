@@ -2,7 +2,6 @@ public class Solver {
 
     private int[][] board;      // represents gameboard
     private boolean[] found;    // gets reset a lot, stores found values
-    private boolean solved;
 
     /*
      * 0  1  2  3  4  5  6  7  8
@@ -29,7 +28,6 @@ public class Solver {
                 this.board[y][x] = -this.board[y][x];
             }
         }
-        this.solved = false;
     }
 
 
