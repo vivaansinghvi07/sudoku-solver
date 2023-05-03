@@ -20,11 +20,6 @@ public class Solver {
      * X-Axis address: block number mod 9
      * Y-Axis address: block number divided by 9
      */
-
-    public enum Status {        // stores return for wins and losses
-        WIN,
-        LOSS
-    }
     
     public Solver(int[][] board) {
         this.board = board;
@@ -42,12 +37,8 @@ public class Solver {
      * Uses backtracking to recursively solve the sudoku board.
      */
     public Status solve(int blockNumber) {
-        if (blockNumber == 82) {    // set solved if its a high number
-            this.solved = true;
-        }
-        // exit if solved
-        if (this.solved) {
-            return Status.WIN;
+        if (blockNumber == 81) { 
+            assert 1 == 0;  // throws an error, signifying a completed puzzle
         }
         this.display();     // displays as it gets solved
         if (this.board[getRowNumber(blockNumber)][getColNumber(blockNumber)] < 0) {
@@ -62,12 +53,8 @@ public class Solver {
                 continue;
             }
         }
-        // exit if solved
-        if (this.solved) {
-            return Status.WIN;
-        }
         this.board[getRowNumber(blockNumber)][getColNumber(blockNumber)] = 0;   // resets to blank if none worked
-        return Status.LOSS;
+        return Status.FAIL;
     }
 
     /*
