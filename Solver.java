@@ -155,7 +155,7 @@ public class Solver {
     private boolean illegalFound(int value) {
         if (value == 0) {                       // blank square
             return false;
-        } else if (found[Math.abs(value)-1] == true) {    // taken square - illegal
+        } else if (this.found[Math.abs(value)-1] == true) {    // taken square - illegal
             return true;
         } else {                                // otherwise mark as found and go next
             this.found[Math.abs(value)-1] = true;
